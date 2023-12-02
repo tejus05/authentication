@@ -1,6 +1,7 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
+import userRouters from './routes/userRoute.js'
 
 dotenv.config();
 
@@ -14,3 +15,4 @@ app.listen(3000, () => {
   console.log('Server listening on 3000')
 });
 
+app.use("/api/user", userRouters);
