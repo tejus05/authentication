@@ -1,14 +1,16 @@
 import React, { useState } from 'react'
 import {Link} from 'react-router-dom'
 import { useNavigate } from 'react-router-dom';
+import { loginStart, loginSuccess, loginFailure } from '../redux/user/userSlice';
+import { useDispatch, useSelector } from 'react-redux';
 
 function Login() {
 
-  const [error, setError] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const { error, loading } = useSelector((state) => state.user);
   const [formData, setFormData] = useState({});
 
   const navigate = useNavigate(); 
+  const dispatch = useDispatch();
 
   const handleChange = (e) => {
     setFormData({
@@ -20,7 +22,7 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      setLoading(true);
+      dispatch(loginStart());
       const res = await fetch('/api/auth/login',
         {
           method: 'POST',
@@ -30,17 +32,15 @@ function Login() {
           body: JSON.stringify(formData),
         });
       const data = await res.json();
-      setLoading(false);
       if (!res.ok) {
-        setError("Error Signing in :/");
+        dispatch(loginFailure("Error Signing in :/"));
         return;
       }
-      setError(false);
+      dispatch(loginSuccess(data));
       navigate("/");
     }
     catch (err) {
-      setLoading(false);
-      setError("Oops! Something went wrong.");
+      dispatch(loginFailure("Oops! Something went wrong."));
     }
   }
 
