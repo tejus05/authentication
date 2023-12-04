@@ -3,6 +3,7 @@ import {Link} from 'react-router-dom'
 import { useNavigate } from 'react-router-dom';
 import { loginStart, loginSuccess, loginFailure } from '../redux/user/userSlice';
 import { useDispatch, useSelector } from 'react-redux';
+import OAuth from '../components/Oauth';
 
 function Login() {
 
@@ -33,14 +34,14 @@ function Login() {
         });
       const data = await res.json();
       if (!res.ok) {
-        dispatch(loginFailure("Error Signing in :/"));
+        dispatch(loginFailure(data));
         return;
       }
       dispatch(loginSuccess(data));
       navigate("/");
     }
     catch (err) {
-      dispatch(loginFailure("Oops! Something went wrong."));
+      dispatch(loginFailure(err));
     }
   }
 
@@ -69,6 +70,9 @@ function Login() {
         >
           {loading ? "Loading..." : "Login"}
         </button>
+        <div>
+          {<OAuth/>}
+        </div>
       </form>
       <div>
         <p className="text-[18px] mt-3">
@@ -78,7 +82,7 @@ function Login() {
           </Link>
         </p>
       </div>
-      <p className="mt-4 text-left text-red-500">{error && error}</p>
+      <p className="mt-4 text-left text-red-500">{error && (error.message || "Something Went Wrong! " )}</p>
     </div>
   );
 }
