@@ -1,6 +1,7 @@
 import {BrowserRouter, Routes, Route} from 'react-router-dom'
 import { About, Home, Login, Profile, Signup } from './pages/'
 import {Footer, Header} from './components'
+import PrivateRoute from './components/PrivateRoute'
 
 function App() {
 
@@ -13,7 +14,9 @@ function App() {
         <Route path='/about' element={ <About/>} />
         <Route path='/login' element={ <Login/>} />
         <Route path='/signup' element={ <Signup/>} />
-        <Route path='/profile' element={ <Profile/>} />
+        <Route element={<PrivateRoute/>}>
+          <Route path='/profile' element={ <Profile/>} />
+        </Route>
       </Routes>
       <Footer/>
     </BrowserRouter>
