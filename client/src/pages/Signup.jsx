@@ -50,7 +50,7 @@ function Signup() {
       <form className='flex flex-col gap-5'
       onSubmit={handleSubmit}
       >
-        <input onChange={handleChange} type="text" placeholder='Username' id='userName' className='bg-slate-100 p-3 rounded-lg outline-none'/>
+        <input onChange={handleChange} type="text" placeholder='Username' id='username' className='bg-slate-100 p-3 rounded-lg outline-none'/>
         <input onChange={handleChange} type="email" placeholder='Email' id='email' className='bg-slate-100 p-3 rounded-lg outline-none'/>
         <input onChange={handleChange} type="password" placeholder='Password' id='password' className='bg-slate-100 p-3 rounded-lg outline-none'/>
         <button disabled={loading} type='submit' className='bg-slate-700 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80'>

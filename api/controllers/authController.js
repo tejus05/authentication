@@ -4,9 +4,9 @@ import {errorHandler} from '../utils/error.js'
 import jwt from "jsonwebtoken";
 
 export const signup = async (req,res,next) => {
-  const { userName, email, password } = req.body;
+  const { username, email, password } = req.body;
   const hashedPassword = bcryptjs.hashSync(password, 10);
-  const newUser = new User({userName,email,password: hashedPassword});
+  const newUser = new User({username,email,password: hashedPassword});
   try {
     await newUser.save();
     res.status(201).json({ message: "user created successfully" });
@@ -52,7 +52,7 @@ export const google = async(req,res,next) => {
     else {
       const generatedPassword = Math.random().toString(36).slice(-8); // to create an 8-digit random password
       const hashedPassword = bcryptjs.hashSync(generatedPassword, 10);
-      const newUser = new User({userName: req.body.name.split(" ").join("").toLowerCase(), email: req.body.email, password: hashedPassword, profilePicture: req.body.photo});
+      const newUser = new User({username: req.body.name.split(" ").join("").toLowerCase(), email: req.body.email, password: hashedPassword, profilePicture: req.body.photo});
       await newUser.save();
       const token = jwt.sign({id: newUser._id}, process.env.JWT_SECRET);
       const expiryDate = new Date(Date.now() + 3600000);
@@ -64,4 +64,8 @@ export const google = async(req,res,next) => {
   } catch (error) {
     next(error);
   }
+}
+
+export const signout = async (req,res) => {
+  res.clearCookie('access_token').status(200).json({message: "Signout success"})
 }
