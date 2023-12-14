@@ -16,7 +16,6 @@ mongoose.connect(process.env.MONGO)
   .then(()=>{console.log("Connected to MonogDB")})
   .catch((err)=>{console.log(err)});
 
-
 app.listen(3000, () => {
   console.log('Server listening on 3000')
 });

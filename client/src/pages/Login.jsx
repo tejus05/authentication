@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom'
 import { useNavigate } from 'react-router-dom';
 import { loginStart, loginSuccess, loginFailure } from '../redux/user/userSlice';
 import { useDispatch, useSelector } from 'react-redux';
-import OAuth from '../components/Oauth';
+import OAuth from '../components/OAuth';
 
 function Login() {
 

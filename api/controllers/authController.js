@@ -52,11 +52,12 @@ export const google = async(req,res,next) => {
     else {
       const generatedPassword = Math.random().toString(36).slice(-8); // to create an 8-digit random password
       const hashedPassword = bcryptjs.hashSync(generatedPassword, 10);
-      const newUser = new User({username: req.body.name.split(" ").join("").toLowerCase(), email: req.body.email, password: hashedPassword, profilePicture: req.body.photo});
+      const username = req.body.username.split(" ").join("").toLowerCase() + Math.floor(Math.random() * 1000);
+      const newUser = new User({username, email: req.body.email, password: hashedPassword, profilePicture: req.body.photo});
       await newUser.save();
       const token = jwt.sign({id: newUser._id}, process.env.JWT_SECRET);
       const expiryDate = new Date(Date.now() + 3600000);
-      const { password: hashedPassword1 ,...rest} = user._doc;
+      const { password: hashedPassword1 ,...rest} = newUser._doc;
       res.cookie("access_token",token, {httpOnly:true, expires: expiryDate})
         .status(200)
         .json(rest);
